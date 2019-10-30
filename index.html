@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Firebase References -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+
     <title>Train Scheduler</title>
 </head>
 
@@ -20,41 +25,34 @@
         </div>
     </div>
 
-<!-- table -->
-    <table class="table container border">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Train Name</th>
-                <th scope="col">Destination</th>
-                <th scope="col">Frequency (min)</th>
-                <th scope="col">Next Arrival</th>
-                <th scope="col">Next Arrival</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- table -->
+    <div class="card">
+        <div class="card-header">Current Train Schedule</div>
+        <div class="card-body">
+            <table class="table border">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Train Name</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Frequency (min)</th>
+                        <th scope="col">Next Arrival</th>
+                        <th scope="col">Next Arrival</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ROWS WITH TRAIN DATA WILL GO HERE -->
 
-<br><br>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
 
     <!-- Form for user input -->
-
+    <div class="card">
+            <div class="card-header">Add Train</div>
+            <div class="card-body">
     <form class="container border">
-        <!-- <h5 class="bg-info">Add Train</h5> -->
         <div class="form-group">
             <label for="trainInput">Train Name</label>
             <input type="text" class="form-control" id="trainInput" placeholder="">
@@ -73,6 +71,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    </div>
+    </div>
 
     <!-- Bootstrap/jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -84,6 +84,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+        <script type="text/javascript" src="assets/javascript/app.js"></script>
 
 </body>
 
