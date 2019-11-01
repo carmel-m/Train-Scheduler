@@ -18,20 +18,21 @@ var connectedRef = database.ref(".info/connected");
 var currentTime = moment().format("HH:mm");
 // console.log(currentTime);
 
-var trainInput = "";
-var destInput = "";
-var firstInput = "";
-var freqInput = "";
+// var trainInput = "";
+// var destInput = "";
+// var firstInput = "";
+// var freqInput = "";
 
 
 // start of on click
 $("#submit-button").on("click", function (event) {
     event.preventDefault();
+    console.log("submit clicked");
     sendToFirebase();
 });
 
 function sendToFirebase() {
-
+    console.log("send to firebase function")
     // get value from input fields
     var trainInput = $("#train-input").val().trim();
     var destInput = $("#dest-input").val().trim();
@@ -49,25 +50,54 @@ function sendToFirebase() {
         dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
 
+    // clear input boxes after submit button is clicked
+    $("#train-input").val("");
+    $("#dest-input").val("");
+    $("#first-input").val("");
+    $("#freq-input").val("");
+
 };
 
-// clear input boxes after submit button is clicked
-$("#train-input").val("");
-$("#dest-input").val("");
-$("#first-input").val("");
-$("#freq-input").val("");
 
 database.ref().on("child_added", function (childSnapshot) {
 
-    
+
     //console log everything coming out of childSnapshot
+console.log(childSnapshot);
+
+    // store data
+    var train = childSnapshot.val().train;
+    var dest = childSnapshot.val().destination;
+   var first = childSnapshot.val().first;
+   var frequency = childSnapshot.val().frequency;
 
     // add everything into the table
 
 
 
 
-    // handle errors
+    //     // handle errors
 }, function (errorObject) {
-            console.log("Errors handled: " + errorObject.code);
-        });
+    console.log("Errors handled: " + errorObject.code);
+});
+
+
+
+// var firstTime = "06:00";
+// var firstTimeFormat = moment("6:00", "hh:mm");
+// var freq = 30;
+// var current = moment().format("MM/DD/YY hh:mm");
+// console.log(current);
+// console.log(firstTimeFormat);
+
+// // console.log(moment().add(30, "m"));
+// var diffTime = moment().diff(moment(firstTimeFormat), "minutes");
+// console.log(diffTime);
+
+// // In minutes when last train arrived
+// var lastTrain = diffTime % freq;
+
+// // In minutes when next train train is
+// var nextTrain = freq - lastTrain;
+// var nextTrainTime = moment().add(nextTrain, "minutes").format("HH:mm");
+// console.log("next train arrives at", nextTrainTime);
