@@ -1,3 +1,5 @@
+// add document.on(ready)
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyDvXoTXktnheH3slTb32CVS9RNADbuCDl8",
@@ -8,6 +10,7 @@ var firebaseConfig = {
     messagingSenderId: "224712573983",
     appId: "1:224712573983:web:81d39ec9c8248a1bdf412a"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
@@ -16,13 +19,7 @@ var connectionsRef = database.ref("/connections");
 var connectedRef = database.ref(".info/connected");
 
 var currentTime = moment().format("HH:mm");
-console.log(currentTime);
-
-// var trainInput = "";
-// var destInput = "";
-// var firstInput = "";
-// var freqInput = "";
-
+// console.log(currentTime);
 
 // start of on click
 $("#submit-button").on("click", function (event) {
@@ -30,6 +27,7 @@ $("#submit-button").on("click", function (event) {
     console.log("submit clicked");
     sendToFirebase();
 });
+
 
 function sendToFirebase() {
     console.log("send to firebase function")
@@ -41,7 +39,7 @@ function sendToFirebase() {
 
     console.log(trainInput, destInput, firstInput, freqInput);
 
-    // FOR FIREBASE
+    // For firebase
     database.ref().push({
         train: trainInput,
         destination: destInput,
@@ -55,50 +53,45 @@ function sendToFirebase() {
     $("#dest-input").val("");
     $("#first-input").val("");
     $("#freq-input").val("");
-
 };
 
 database.ref().on("child_added", function (childSnapshot) {
 
     //console log everything coming out of childSnapshot
-console.log(childSnapshot);
+    console.log(childSnapshot);
 
     // store data
     var train = childSnapshot.val().train;
     var dest = childSnapshot.val().destination;
-   var first = childSnapshot.val().first;
-   var freq = childSnapshot.val().frequency;
+    var first = childSnapshot.val().first;
+    var freq = childSnapshot.val().frequency;
+
+    var firstConvert = moment(first, "HH:mm").subtract(1, "years");
+
+    var timeDiff = moment().diff(moment(firstConvert), "minutes");
+    // console.log(timeDiff);
+
+    var lastTrain = timeDiff % freq;
+    // console.log("last train: " + lastTrain);
+
+    var timeRemain = freq - lastTrain;
+    // console.log("time remaining: " + timeRemain);
+
+    var nextTrain = moment().add(timeRemain, "minutes");
+    nextTrainConvert = moment(nextTrain).format("HH:mm");
+    // console.log("next train: " + nextTrainConvert);
 
     // add everything into the table
-$("#table-body").append(
-    "<tr><td class='train-display'>" + train +
-    "</td><td class='dest-display'>" + dest +
-    // "</td><td class='first-display'>" + first +
-    "</td><td class='freq-display'>" + freq + "</td></tr>"
-);
+    $("#table-body").append(
+        "<tr><td class='train-display'>" + train +
+        "</td><td class='dest-display'>" + dest +
+        "</td><td class='freq-display'>" + freq + 
+        "</td><td class='next-train-display'>" + nextTrainConvert +
+        "</td><td class='mins-away-display'>" + timeRemain + "</td></tr>"
+    );
 
-    //     // handle errors
+    // handle errors
 }, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
 
-
-
-// var firstTime = "06:00";
-// var firstTimeFormat = moment("6:00", "hh:mm");
-// var freq = 30;
-// var current = moment().format("MM/DD/YY hh:mm");
-// console.log(current);
-// console.log(firstTimeFormat);
-
-// // console.log(moment().add(30, "m"));
-// var diffTime = moment().diff(moment(firstTimeFormat), "minutes");
-// console.log(diffTime);
-
-// // In minutes when last train arrived
-// var lastTrain = diffTime % freq;
-
-// // In minutes when next train train is
-// var nextTrain = freq - lastTrain;
-// var nextTrainTime = moment().add(nextTrain, "minutes").format("HH:mm");
-// console.log("next train arrives at", nextTrainTime);
