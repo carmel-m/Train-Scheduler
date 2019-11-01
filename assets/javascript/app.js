@@ -16,7 +16,7 @@ var connectionsRef = database.ref("/connections");
 var connectedRef = database.ref(".info/connected");
 
 var currentTime = moment().format("HH:mm");
-// console.log(currentTime);
+console.log(currentTime);
 
 // var trainInput = "";
 // var destInput = "";
@@ -58,9 +58,7 @@ function sendToFirebase() {
 
 };
 
-
 database.ref().on("child_added", function (childSnapshot) {
-
 
     //console log everything coming out of childSnapshot
 console.log(childSnapshot);
@@ -69,12 +67,15 @@ console.log(childSnapshot);
     var train = childSnapshot.val().train;
     var dest = childSnapshot.val().destination;
    var first = childSnapshot.val().first;
-   var frequency = childSnapshot.val().frequency;
+   var freq = childSnapshot.val().frequency;
 
     // add everything into the table
-
-
-
+$("#table-body").append(
+    "<tr><td class='train-display'>" + train +
+    "</td><td class='dest-display'>" + dest +
+    // "</td><td class='first-display'>" + first +
+    "</td><td class='freq-display'>" + freq + "</td></tr>"
+);
 
     //     // handle errors
 }, function (errorObject) {
